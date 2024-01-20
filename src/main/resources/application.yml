@@ -1,9 +1,9 @@
 spring:
   profiles:
     group:
-      "local": "localDB, devPort, secret, web-mvc, jpa-config"
-      "dev": "devDB, devPort, secret, web-mvc, jpa-config"
-      "prod": "prodDB, prodPort, secret, web-mvc, jpa-config"
+      "local": "localDB, devPort, secret, web-mvc, jpa-config, redis-config"
+      "dev": "devDB, devPort, secret, web-mvc, jpa-config, redis-config"
+      "prod": "prodDB, prodPort, secret, web-mvc, jpa-config, redis-config"
 
 ---
 
@@ -131,4 +131,15 @@ logging:
   org.hibernate.SQL: debug
   org.hibernate.orm.jdbc.bind:
 
+---
 
+spring:
+  config:
+    activate:
+      on-profile: "redis-config"
+
+  data:
+    redis:
+      host : ${REDIS_URL}
+      port : ${REDIS_PORT}
+      timeout : 10
