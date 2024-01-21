@@ -3,11 +3,13 @@ package com.project.zipkok.dao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 @RequiredArgsConstructor
 public class RedisDao {
     private final RedisTemplate<String, String> redisTemplate;

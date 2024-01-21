@@ -2,8 +2,10 @@ package com.project.zipkok.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class GetUserResponse {
 

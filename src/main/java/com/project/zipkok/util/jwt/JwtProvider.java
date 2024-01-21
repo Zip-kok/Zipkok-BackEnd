@@ -4,6 +4,7 @@ import io.jsonwebtoken.*;
 import com.project.zipkok.common.exception.jwt.bad_request.JwtUnsupportedTokenException;
 import com.project.zipkok.common.exception.jwt.unauthorized.JwtInvalidTokenException;
 import com.project.zipkok.common.exception.jwt.unauthorized.JwtMalformedTokenException;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import static com.project.zipkok.common.response.status.BaseExceptionResponseSta
 
 @Slf4j
 @Component
+@Getter
 public class JwtProvider {
 
     @Value("${secret.jwt-secret-key}")

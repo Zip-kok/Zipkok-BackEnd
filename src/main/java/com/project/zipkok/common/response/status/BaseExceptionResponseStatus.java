@@ -17,6 +17,7 @@ public enum BaseExceptionResponseStatus implements ResponseStatus {
     URL_NOT_FOUND(2001, HttpStatus.BAD_REQUEST.value(), "유효하지 않은 URL 입니다."),
     METHOD_NOT_ALLOWED(2002, HttpStatus.METHOD_NOT_ALLOWED.value(), "해당 URL에서는 지원하지 않는 HTTP Method 입니다."),
 
+
     /**
      * 3000: Server, Database 예외 (INTERNAL_SERVER_ERROR)
      */
@@ -34,6 +35,8 @@ public enum BaseExceptionResponseStatus implements ResponseStatus {
     MALFORMED_TOKEN(4004, HttpStatus.UNAUTHORIZED.value(), "토큰이 올바르게 구성되지 않았습니다."),
     EXPIRED_TOKEN(4005, HttpStatus.UNAUTHORIZED.value(), "만료된 토큰입니다."),
     TOKEN_MISMATCH(4006, HttpStatus.UNAUTHORIZED.value(), "로그인 정보가 토큰 정보와 일치하지 않습니다."),
+    REISSUE_TOKEN_SUCCESS(4010, HttpStatus.OK.value(), "성공적으로 토큰 재발급이 되었습니다."),
+    INVALID_REFRESHTOKEN(4011, HttpStatus.UNAUTHORIZED.value(), " 유효하지 않은 refresh token입니다."),
 
     /**
      * 5000: User 예외

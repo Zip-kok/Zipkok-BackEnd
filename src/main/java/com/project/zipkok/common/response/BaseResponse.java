@@ -2,8 +2,10 @@ package com.project.zipkok.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.project.zipkok.common.response.status.BaseExceptionResponseStatus;
 import com.project.zipkok.common.response.status.ResponseStatus;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 import static com.project.zipkok.common.response.status.BaseExceptionResponseStatus.SUCCESS;
 
@@ -22,6 +24,13 @@ public class BaseResponse<T> implements ResponseStatus {
         this.code = SUCCESS.getCode();
         this.status = SUCCESS.getStatus();
         this.message = SUCCESS.getMessage();
+        this.result = result;
+    }
+
+    public BaseResponse(ResponseStatus e, T result) {
+        this.code = e.getCode();
+        this.status = e.getStatus();
+        this.message = e.getMessage();
         this.result = result;
     }
 
