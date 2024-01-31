@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.project.zipkok.common.response.status.BaseExceptionResponseStatus.FAVORITES_QUERY_SUCCESS;
+
 @Slf4j
 @RestController
 @RequestMapping("/zim")
@@ -23,6 +25,6 @@ public class ZimController {
     public BaseResponse<GetZimLoadResponse> zimLoad(@Parameter(hidden = true) @PreAuthorize long userId){
         log.info("{ZimController.zimLoad}");
 
-        return new BaseResponse<>(this.zimService.zimLoad(userId));
+        return new BaseResponse<>(FAVORITES_QUERY_SUCCESS, this.zimService.zimLoad(userId));
     }
 }
