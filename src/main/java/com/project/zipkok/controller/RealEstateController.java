@@ -4,6 +4,7 @@ import com.project.zipkok.common.argument_resolver.PreAuthorize;
 import com.project.zipkok.common.exception.RealEstateException;
 import com.project.zipkok.common.response.BaseResponse;
 import com.project.zipkok.dto.GetRealEstateResponse;
+import com.project.zipkok.dto.GetRealEstatesResponse;
 import com.project.zipkok.service.RealEstateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,13 +12,10 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.geo.Point;
+import org.springframework.web.bind.annotation.*;
 
-import static com.project.zipkok.common.response.status.BaseExceptionResponseStatus.INVALID_PROPERTY_ID;
-import static com.project.zipkok.common.response.status.BaseExceptionResponseStatus.PROPERTY_DETAIL_QUERY_SUCCESS;
+import static com.project.zipkok.common.response.status.BaseExceptionResponseStatus.*;
 
 @Slf4j
 @RestController
@@ -39,5 +37,17 @@ public class RealEstateController {
         }
 
         return new BaseResponse<>(PROPERTY_DETAIL_QUERY_SUCCESS, realEstateService.getRealEstateInfo(userId, realEstateId));
+    }
+
+    @Operation(summary = "지도에 표시할 매물을 불러오는 API", description = "인자로 넘어온 지도 영역 안쪽의 모든 매물을 반환")
+    @GetMapping("")
+    public BaseResponse<GetRealEstatesResponse> getRealEstates(@Parameter(hidden = true) @PreAuthorize long userId,
+                                                               @Parameter(name = "southWestLat", description = "지도의 좌측하단 모서리 위도") @RequestParam(value = "southWestLat") double southWestLat,
+                                                               @Parameter(name = "southWestLon", description = "지도의 좌측하단 모서리 경도") @RequestParam(value = "southWestLon") double southWestLon,
+                                                               @Parameter(name = "northEastLat", description = "지도의 우상단 모서리 위도") @RequestParam(value = "northEastLat") double northEastLat,
+                                                               @Parameter(name = "northEastLon", description = "지도의 우상단 모서리 경도") @RequestParam(value = "northEastLon") double northEastLon) {
+        log.info("[RealEstateController.getRealEstates]");
+
+        return new BaseResponse<>(PROPERTY_MAP_QUERY_SUCCESS, realEstateService.getRealEstates(userId, southWestLat, southWestLon, northEastLat, northEastLon));
     }
 }

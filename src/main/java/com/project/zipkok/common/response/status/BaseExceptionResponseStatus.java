@@ -120,9 +120,10 @@ public enum BaseExceptionResponseStatus implements ResponseStatus {
     INVALID_MANAGEMENT_FEE_FORMAT(8007, HttpStatus.BAD_REQUEST.value(), "관리비 정보가 없거나 형식이 잘못됨"),
     INVALID_ADDRESS_FORMAT(8008, HttpStatus.BAD_REQUEST.value(), "주소 정보가 없거나 형식이 잘못됨"),
     INVALID_PROPERTY_ID(8009, HttpStatus.NOT_FOUND.value(), "존재하지 않는 매물이거나 잘못된 매물 id"),
-    INVALID_LATITUDE_FORMAT(8010, HttpStatus.BAD_REQUEST.value(), "위도 정보가 없거나 형식이 잘못됨"),
-    INVALID_LONGITUDE_FORMAT(8011, HttpStatus.BAD_REQUEST.value(), "경도 정보가 없거나 형식이 잘못됨"),
+    INVALID_SOUTHWEST_FORMAT(8010, HttpStatus.BAD_REQUEST.value(), "남서쪽 좌표정보가 없거나 형식이 잘못됨"),
+    INVALID_NORTHEAST_FORMAT(8011, HttpStatus.BAD_REQUEST.value(), "북동쪽 좌표정보가 없거나 형식이 잘못됨"),
     INVALID_REALESTATE_ID(8012, HttpStatus.BAD_REQUEST.value(), "매물 아이디 형식이 잘못됨"),
+    PROPERTY_MAP_QUERY_FAILIURE(8002, HttpStatus.OK.value(), "지도 상 매물 정보 조회 실패"),
 
 
     /**
