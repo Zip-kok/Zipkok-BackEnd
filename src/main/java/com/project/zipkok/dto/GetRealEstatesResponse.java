@@ -36,6 +36,8 @@ public class GetRealEstatesResponse {
     public static class RealEstateInfo {
         private Long realEstateId;
         private String imageURL;
+        private String transactionType;
+        private String realEstateType;
         private Long deposit;
         private Long price;
         private String address;

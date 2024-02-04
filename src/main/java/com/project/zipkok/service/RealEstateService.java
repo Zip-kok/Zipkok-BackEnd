@@ -138,6 +138,8 @@ public class RealEstateService {
                     .realEstateInfoList(realEstatesQueryResult.stream().map(realEstate -> GetRealEstatesResponse.RealEstateInfo.builder()
                                     .realEstateId(realEstate.getRealEstateId())
                                     .imageURL(realEstate.getImageUrl())
+                                    .transactionType(realEstate.getTransactionType().getDescription())
+                                    .realEstateType(realEstate.getRealEstateType().getDescription())
                                     .deposit(realEstate.getDeposit())
                                     .price(realEstate.getPrice())
                                     .address(realEstate.getAddress())
