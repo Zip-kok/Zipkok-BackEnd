@@ -2,11 +2,11 @@ package com.project.zipkok.service;
 
 import com.project.zipkok.common.enums.RealEstateType;
 import com.project.zipkok.common.enums.TransactionType;
-import com.project.zipkok.common.exception.DatabaseException;
-import com.project.zipkok.common.exception.InternalServerErrorException;
 import com.project.zipkok.common.exception.RealEstateException;
 import com.project.zipkok.dto.GetRealEstateResponse;
 import com.project.zipkok.dto.GetRealEstatesResponse;
+import com.project.zipkok.dto.PostRealEstateRequest;
+import com.project.zipkok.dto.PostRealEstateResponse;
 import com.project.zipkok.model.RealEstate;
 import com.project.zipkok.model.RealEstateImage;
 import com.project.zipkok.model.User;
@@ -18,12 +18,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.project.zipkok.common.response.status.BaseExceptionResponseStatus.INVALID_PROPERTY_ID;
-import static com.project.zipkok.common.response.status.BaseExceptionResponseStatus.PROPERTY_MAP_QUERY_FAILIURE;
+import static com.project.zipkok.common.response.status.BaseExceptionResponseStatus.*;
 
 @Slf4j
 @Service
@@ -61,6 +59,17 @@ public class RealEstateService {
                 isKokked = true;
             }
 
+            List<GetRealEstateResponse.RealEstateBriefInfo> neighborRealEstates = realEstateRepository.findAllByProximity(realEstate.getLatitude(), realEstate.getLongitude())
+                    .stream()
+                    .map(result -> GetRealEstateResponse.RealEstateBriefInfo.builder()
+                            .realEstateId(result.getRealEstateId())
+                            .imageUrl(result.getImageUrl())
+                            .address(result.getAddress())
+                            .deposit(result.getDeposit())
+                            .price(result.getPrice())
+                            .build())
+                    .toList();
+
 
             GetRealEstateResponse response = GetRealEstateResponse.builder()
                     .realEstateId(realEstate.getRealEstateId())
@@ -80,12 +89,46 @@ public class RealEstateService {
                     .longitude(realEstate.getLongitude())
                     .isZimmed(isZimmed)
                     .isKokked(isKokked)
+                    .neighborRealEstates(neighborRealEstates)
                     .build();
 
             return response;
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new RealEstateException(INVALID_PROPERTY_ID);
+        }
+    }
+
+    public PostRealEstateResponse registerRealEstate(long userId, PostRealEstateRequest postRealEstateRequest) {
+
+        try {
+            User user = userRepository.findByUserId(userId);
+
+            RealEstate realEstate = RealEstate.builder()
+                    .imageUrl(null)
+                    .address(postRealEstateRequest.getAddress())
+                    .latitude(postRealEstateRequest.getLatitude())
+                    .longitude(postRealEstateRequest.getLongitude())
+                    .transactionType(postRealEstateRequest.getTransactionType())
+                    .deposit(postRealEstateRequest.getDeposit())
+                    .price(postRealEstateRequest.getPrice())
+                    .administrativeFee(postRealEstateRequest.getAdministrativeFee())
+                    .detail(postRealEstateRequest.getRealEstateName())
+                    .areaSize(null)
+                    .pyeongsu(postRealEstateRequest.getPyeongsu())
+                    .realEstateType(postRealEstateRequest.getRealEstateType())
+                    .floorNum(postRealEstateRequest.getFloorNum())
+                    .user(user)
+                    .agent(null)
+                    .detailAddress(postRealEstateRequest.getDetailAddress())
+                    .status("active")
+                    .build();
+
+            Long realEstateId = realEstateRepository.save(realEstate).getRealEstateId();
+
+            return new PostRealEstateResponse(realEstateId);
+        } catch (Exception e) {
+            throw new RealEstateException(PROPERTY_REGISTRATION_FAILURE);
         }
     }
 

@@ -5,6 +5,8 @@ import com.project.zipkok.common.exception.RealEstateException;
 import com.project.zipkok.common.response.BaseResponse;
 import com.project.zipkok.dto.GetRealEstateResponse;
 import com.project.zipkok.dto.GetRealEstatesResponse;
+import com.project.zipkok.dto.PostRealEstateRequest;
+import com.project.zipkok.dto.PostRealEstateResponse;
 import com.project.zipkok.service.RealEstateService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,7 +14,9 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.geo.Point;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+
 import org.springframework.web.bind.annotation.*;
 
 import static com.project.zipkok.common.response.status.BaseExceptionResponseStatus.*;
@@ -49,5 +53,24 @@ public class RealEstateController {
         log.info("[RealEstateController.getRealEstates]");
 
         return new BaseResponse<>(PROPERTY_MAP_QUERY_SUCCESS, realEstateService.getRealEstates(userId, southWestLat, southWestLon, northEastLat, northEastLon));
+    }
+    @Operation(summary = "매물 직접등록 API", description = "매물을 직접 등록할 때 사용하는 API입니다.")
+    @PostMapping("")
+    public BaseResponse<PostRealEstateResponse> registerRealEstate(@Parameter(hidden = true) @PreAuthorize long userId,
+                                                                   @Validated @RequestBody PostRealEstateRequest postRealEstateRequest, BindingResult bindingResult) {
+
+        log.info("[RealEstateController.registerRealEstate]");
+
+        if(bindingResult.hasFieldErrors("realEstateName")) {
+            throw new RealEstateException(INVALID_PROPERTY_NAME);
+        } else if (bindingResult.hasFieldErrors("transactioinType") || bindingResult.hasFieldErrors("realEstateType")) {
+            throw new RealEstateException(INVALID_RENTAL_PRICE_FORMAT);
+        } else if (bindingResult.hasFieldErrors("administrativeFee")) {
+            throw new RealEstateException(INVALID_MANAGEMENT_FEE_FORMAT);
+        } else if (bindingResult.hasFieldErrors("address")) {
+            throw new RealEstateException(INVALID_ADDRESS_FORMAT);
+        }
+
+        return new BaseResponse<>(PROPERTY_REGISTRATION_SUCCESS, realEstateService.registerRealEstate(userId, postRealEstateRequest));
     }
 }
