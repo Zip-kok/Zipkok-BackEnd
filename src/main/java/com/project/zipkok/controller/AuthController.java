@@ -35,7 +35,7 @@ public class AuthController {
 
 
     @Operation(summary = "인가코드를 받아 서비스의 회원여부를 응답하는 API ", description = "authorizaion code를 쿼리 파라미터로 추가한뒤, 요청해주세요")
-    @GetMapping("/oauth/kakao/callback")
+    @GetMapping("/api/oauth/kakao/callback")
     public BaseResponse<GetLoginResponse> loginKakao(@RequestParam("code") String authorizationCode) throws IOException {
         log.info("AuthController.loginKakao");
         KakaoLoginParams params = new KakaoLoginParams(authorizationCode);

@@ -26,7 +26,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/kok")
+@RequestMapping("/api/kok")
 @Tag(name = "Kok API", description = "콕 관련 API")
 public class KokController {
 

@@ -33,7 +33,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @Tag(name = "User API", description = "회원 관련 API")
 public class UserController {
     private final UserService userService;

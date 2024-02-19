@@ -19,7 +19,7 @@ import static com.project.zipkok.common.response.status.BaseExceptionResponseSta
 
 @Slf4j
 @RestController
-@RequestMapping("/realEstate")
+@RequestMapping("/api/realEstate")
 @RequiredArgsConstructor
 @Tag(name = "RealEstate API", description = "매물 관련 API")
 public class RealEstateController {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/address")
+@RequestMapping("/api/address")
 @RequiredArgsConstructor
 @Tag(name = "Address API", description = "주소검색 API")
 public class AddressController {

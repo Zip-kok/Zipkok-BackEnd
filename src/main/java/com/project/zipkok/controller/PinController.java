@@ -21,7 +21,7 @@ import static com.project.zipkok.common.response.status.BaseExceptionResponseSta
 
 @Slf4j
 @RestController
-@RequestMapping("/pin")
+@RequestMapping("/api/pin")
 @RequiredArgsConstructor
 @Tag(name = "Pin API", description = "핀 관련 API")
 public class PinController {

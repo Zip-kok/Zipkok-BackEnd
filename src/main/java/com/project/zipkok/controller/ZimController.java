@@ -19,7 +19,7 @@ import static com.project.zipkok.common.response.status.BaseExceptionResponseSta
 
 @Slf4j
 @RestController
-@RequestMapping("/zim")
+@RequestMapping("/api/zim")
 @RequiredArgsConstructor
 @Tag(name = "Zim API", description = "찜 관련 API")
 public class ZimController {
